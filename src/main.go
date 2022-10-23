@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"user-komeda/GOLANG_SCRAIPE/src/sub/goquery"
+	"user-komeda/GOLANG_SCRAIPE/src/sub/selenium"
+)
 
 func main() {
-	fmt.Println("aaa")
+	html, _ := selenium.Selenium()
+	goquery.Goquery(html)
 }
