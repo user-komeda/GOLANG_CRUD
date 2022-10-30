@@ -23,9 +23,9 @@ func GoqueryForCategory(html string) {
 func GoqueryForMainContent(html string, page *agouti.Page) {
 	urlList := getCategoryURL(html)
 	for _, url := range urlList {
-		fmt.Println("bbb")
-		for i := 1; i < 201; i++ {
-			html, _ := selenium.NavigatePage(url+"?page="+strconv.Itoa(i), page)
+		html, _ := selenium.NavigatePage(url+"?hide_expired=true", page)
+		for i := 1; i < getPageSize(html); i++ {
+			html, _ := selenium.NavigatePage(url+"?hide_expired=true&page="+strconv.Itoa(i), page)
 			htmlContent := goqueryBase(html)
 			title := htmlContent.Find(".item_title")
 			title.Each(func(i int, s *goquery.Selection) {
@@ -55,4 +55,11 @@ func getCategoryURL(html string) []string {
 		urlList = append(urlList, s.AttrOr("href", ""))
 	})
 	return urlList
+}
+
+func getPageSize(html string) int {
+	htmlContent := goqueryBase(html)
+	resultContent := htmlContent.Find(".result_count").Text()
+	pageSize, _ := strconv.Atoi(resultContent[:strings.Index(resultContent, "件")])
+	return pageSize/50 + 1
 }
