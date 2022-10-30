@@ -2,6 +2,7 @@ package goquery
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
 	"user-komeda/GOLANG_SCRAIPE/src/sub/selenium"
@@ -22,17 +23,19 @@ func GoqueryForCategory(html string) {
 func GoqueryForMainContent(html string, page *agouti.Page) {
 	urlList := getCategoryURL(html)
 	for _, url := range urlList {
-		fmt.Println(url)
-		html, _ := selenium.NavigatePage(url, page)
-		htmlContent := goqueryBase(html)
-		title := htmlContent.Find(".item_title")
-		title.Each(func(i int, s *goquery.Selection) {
-			fmt.Println(s.Text())
-			fmt.Println("-------")
-			time.Sleep(time.Second * 1)
-		})
-		fmt.Println("=======")
-		time.Sleep(time.Second * 2)
+		fmt.Println("bbb")
+		for i := 1; i < 201; i++ {
+			html, _ := selenium.NavigatePage(url+"?page="+strconv.Itoa(i), page)
+			htmlContent := goqueryBase(html)
+			title := htmlContent.Find(".item_title")
+			title.Each(func(i int, s *goquery.Selection) {
+				fmt.Println(s.Text())
+				fmt.Println("-------")
+				// time.Sleep(time.Second * 1)
+			})
+			fmt.Println("=======")
+			time.Sleep(time.Second * 2)
+		}
 	}
 }
 
