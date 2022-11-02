@@ -27,16 +27,51 @@ func GoqueryForMainContent(html string, page *agouti.Page) {
 		for i := 1; i < getPageSize(html); i++ {
 			html, _ := selenium.NavigatePage(url+"?hide_expired=true&page="+strconv.Itoa(i), page)
 			htmlContent := goqueryBase(html)
-			title := htmlContent.Find(".item_title")
-			title.Each(func(i int, s *goquery.Selection) {
-				fmt.Println(s.Text())
-				fmt.Println("-------")
-				// time.Sleep(time.Second * 1)
-			})
+			getTitle(htmlContent)
+			getPrice(htmlContent)
+			getDeadLine(htmlContent)
+			getLink(htmlContent)
 			fmt.Println("=======")
 			time.Sleep(time.Second * 2)
 		}
 	}
+}
+
+func getTitle(htmlContent *goquery.Document) {
+	title := htmlContent.Find(".item_title")
+	title.Each(func(i int, s *goquery.Selection) {
+		fmt.Println(s.Text())
+		fmt.Println("-------")
+		// time.Sleep(time.Second * 1)
+	})
+}
+
+func getPrice(htmlContent *goquery.Document) {
+	price := htmlContent.Find(".amount")
+	price.Each(func(i int, s *goquery.Selection) {
+		fmt.Println(s.Text())
+		fmt.Println("-------")
+		// time.Sleep(time.Second * 1)
+	})
+}
+
+func getDeadLine(htmlContent *goquery.Document) {
+	deadLine := htmlContent.Find(".absolute_date")
+	deadLine.Each(func(i int, s *goquery.Selection) {
+		fmt.Println(s.Text())
+		fmt.Println("-------")
+		// time.Sleep(time.Second * 1)
+	})
+
+}
+
+func getLink(htmlContent *goquery.Document) {
+	deadLine := htmlContent.Find("a[data-item-title-link]")
+	deadLine.Each(func(i int, s *goquery.Selection) {
+		fmt.Println(s.AttrOr("href", ""))
+		fmt.Println("-------")
+		// time.Sleep(time.Second * 1)
+	})
 }
 
 func goqueryBase(html string) *goquery.Document {
