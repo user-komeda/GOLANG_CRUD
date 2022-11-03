@@ -6,6 +6,9 @@ import (
 )
 
 func main() {
-	html, _ := selenium.Selenium()
-	goquery.Goquery(html)
+	html, _, page, driver := selenium.Selenium()
+	goquery.GoqueryForCategory(html)
+	goquery.GoqueryForMainContent(html, page)
+	driver.Stop()
+
 }
